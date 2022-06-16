@@ -10,7 +10,7 @@ format:
     slide-number: c/t
     title-slide-attributes:
       data-background-image: /img/antarctica.jpg
-      data-background-size: contain  
+      data-background-size: cover  
 editor: visual
 ---
 
