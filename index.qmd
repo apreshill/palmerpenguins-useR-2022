@@ -9,7 +9,7 @@ format:
     theme: ["pp.scss"]
     slide-number: c/t
     title-slide-attributes:
-      data-background-image: /img/antarctica.jpg
+      data-background-image: img/antarctica.jpg
       data-background-size: cover  
 editor: visual
 ---
