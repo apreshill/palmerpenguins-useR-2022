@@ -1,0 +1,286 @@
+---
+title: "The untold story of palmerpenguins 🐧"
+author:
+  - Dr. Kristin Gorman
+  - Dr. Allison Horst
+  - Dr. Alison Hill
+format: 
+  revealjs:
+    theme: ["pp.scss"]
+    slide-number: c/t
+    title-slide-attributes:
+      data-background-image: /img/antarctica.jpg
+      data-background-size: contain  
+editor: visual
+---
+
+```{r setup}
+#| include: false
+
+library(palmerpenguins)
+
+# for interactive plots
+library(ggiraph)
+
+# for color
+library(paletteer)
+
+# for cran plots
+library(cranlogs)
+library(tidyverse)
+library(scales)
+
+# for fonts
+library(showtext)
+font_add_google("Jost", "Jost")
+showtext_auto()
+theme_set(theme_minimal(base_family = "Jost"))
+
+# for reporting cran downloads
+start_date <- "2020-04-01"
+end_date <- "2022-06-15"
+```
+
+```{r}
+#| eval: false
+#| include: false
+# do this just once
+dl <- cranlogs::cran_downloads("palmerpenguins",
+                               from = start_date,
+                               to = end_date) %>% 
+  as_tibble() 
+saveRDS(dl, file = "data/cran-downloads.RDS") 
+```
+
+## What is palmerpenguins?
+
+::: columns
+::: column
+-   An R package featuring the **penguins** dataset
+
+-   `r nrow(penguins)` penguins
+
+-   `r n_distinct(penguins$species)` penguin species
+
+-   `Inf` fun
+:::
+
+::: column
+```{r}
+# make the base plot
+penguin_linear_base <-
+  penguins %>%
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species
+  )) %>%
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g)) +
+  scale_color_paletteer_d("colorblindr::OkabeIto") +
+  theme(legend.position = c(0.2,0.85)) +
+  labs(x = "Flipper length (mm)",
+       y = "Body mass (g)") +
+  theme(plot.title.position = "plot",
+        #panel.grid = element_blank(),
+        panel.border = element_rect(fill = NA, color = "gray70"),
+        legend.title = element_blank())
+
+# add interactivity
+penguins_tooltip <- c(str_c("Flipper length (mm) = ", penguins$flipper_length_mm,
+                           "\n Body mass (g) = ", penguins$body_mass_g,
+                           "\n Species = ", penguins$species))
+
+penguin_linear_int <-
+  penguin_linear_base +
+  geom_point_interactive(aes(color = species,
+                             shape = species,
+                             tooltip = penguins_tooltip,
+                             data_id = species),
+                         size = 2,
+                         alpha = .8
+                         ) +
+  geom_smooth_interactive(aes(group = species,
+                              color = species,
+                              data_id= species),
+                          method = lm,
+                          se = FALSE
+                          )
+
+girafe(ggobj = penguin_linear_int,
+       options = list(
+         opts_hover_inv(css = "opacity:0.2;"),
+         opts_hover(css = "opacity:1; filter: brightness(90%);")
+       ))
+```
+:::
+:::
+
+## palmerpenguins popularity
+
+```{r}
+dl <- readRDS("data/cran-downloads.RDS")
+```
+
+::: columns
+::: column
+-   \> `r scales::number(sum(dl$count), big.mark = ",", accuracy = 100)` CRAN downloads since `r start_date`
+
+-   Used in courses, workshops, & content
+
+-   `penguins` now in Python, Julia, TensorFlow libraries
+:::
+
+::: column
+```{r cran-line}
+ggplot(dl, aes(date, count)) +
+  geom_line(color = "#336688") +
+  labs(y = "Daily downloads", x = NULL)
+```
+:::
+:::
+
+```{r cran-median}
+#| out.width: 80%
+weekly_median <-
+  dl %>% 
+  group_by(week = lubridate::week(date), package) %>% 
+  summarize(median_dl = median(count),
+            begin_week = min(date))
+ggplot(weekly_median, aes(begin_week, median_dl, 
+               color = package)) +
+  geom_line(color = "#336688", lwd = 1) +
+  labs(y = "Median weekly downloads", x = NULL) 
+```
+
+```{r cran-trend}
+# from https://github.com/hadley/cran-downloads/blob/master/server.R
+show_trend <- function(df) {
+  count_ts <- ts(df$count, frequency = 7)
+  stl <- tryCatch(
+    as.data.frame(stl(count_ts, "periodic")$time.series),
+    error = function(e) data.frame(trend = df$count, remainder = 0)
+  )
+  df$trend <- stl$trend
+  df$remainder <- stl$remainder
+  df
+}
+trend <- dl %>% group_by(package) %>% do(show_trend(.))
+ggplot(trend, aes(date, colour = package)) +
+  geom_linerange(aes(ymin = trend, ymax = trend + remainder), colour = "grey70", alpha = .5, lwd = 1) +
+  geom_line(aes(y = trend), lwd = 1) +
+  labs(y = "Daily downloads (smoothed)", x = NULL) 
+```
+
+## A brief history
+
+## Wanted: an alternative to iris
+
+-   Collected by botanist Edgar Anderson in 1935
+
+-   50 size measurements for 3 species of iris
+
+-   No missing values
+
+-   Lacks metadata
+
+-   Non-intuitive variables (e.g. "sepal.width")
+
+-   Used \*everywhere\* in data science teaching & resources
+
+-   Published in The Annals of Eugenics (RA Fisher, 1936)
+
+## Penguins to the rescue
+
+-   Eternal search for useful teaching datasets
+
+-   Size measurements for 344 individual penguins (Adélie, chinstrap and gentoo) recorded at islands near Palmer Archipelago, Antarctica by [Gorman et al.](https://dx.plos.org/10.1371/journal.pone.0090081)
+
+-   Aligns eerily well with iris data
+
+## palmerpenguins power team, assemble!
+
+::: columns
+::: {.column width="60%"}
+#### In June 2020 (about 4 months after ☣️)
+
+-   June 4: 🐦 In excitement, Allison Horst tweets about the penguins data
+
+    -   📦 Alison Hill responds "Do you wanna build a package?"
+
+    -   ⛔ Allison deletes tweet to clarify licensing questions
+
+-   1 day later: 🔏 Allison emails Kristen about use & license
+
+-   3 days later (June 8): 🚀 palmerpenguins power team assembles for the first time!
+
+-   45 days later (July 23): 🎁 available on [CRAN](https://cran.r-project.org/web/packages/palmerpenguins/index.html)
+:::
+
+::: {.column width="40%"}
+```{=html}
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">🐧🐧🐧<br><br>This penguin data is a great alternative to iris &amp; available for use by CC0 🤩 Thank you Dr. Kristen Gorman w/ <a href="https://twitter.com/UAFcfos?ref_src=twsrc%5Etfw">@UAFcfos</a>, Marty Downs w/ <a href="https://twitter.com/USLTER?ref_src=twsrc%5Etfw">@USLTER</a>, &amp; <a href="https://twitter.com/PalmerLTER?ref_src=twsrc%5Etfw">@PalmerLTER</a> for help, info &amp; making it available for use 🎉<br><br>Data, examples, &amp; use info here: <a href="https://t.co/dSIqWNFlVw">https://t.co/dSIqWNFlVw</a> 🧵 1/6 <a href="https://t.co/2Eu4AxoeZl">pic.twitter.com/2Eu4AxoeZl</a></p>&mdash; Allison Horst (@allison_horst) <a href="https://twitter.com/allison_horst/status/1270046399418138625?ref_src=twsrc%5Etfw">June 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+:::
+:::
+
+## The making of...
+
+::: columns
+::: column
+```{=html}
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hi <a href="https://twitter.com/seankross?ref_src=twsrc%5Etfw">@seankross</a>, thanks for asking! <a href="https://twitter.com/apreshill?ref_src=twsrc%5Etfw">@apreshill</a> is helping me out to make this into a package, so expect a penguins data 📦 soon 😊 Hope you&#39;re well, maybe we can get you back up to SB soon?</p>&mdash; Allison Horst (@allison_horst) <a href="https://twitter.com/allison_horst/status/1270200118256431104?ref_src=twsrc%5Etfw">June 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+:::
+
+::: column
+contents...
+:::
+:::
+
+## Penguins in the wild
+
+## Why has it been so popular?
+
+::: columns
+::: column
+-   Penguins? Penguins! (easy to see & say)
+
+-   Parallels with `iris` but with more basic structural measurements
+
+-   Open license
+:::
+
+::: column
+Reviewer #1: define "flipper" for the laypeople audience
+
+"flippers are the modified 'wings' of penguins used for maneuvering in water"
+:::
+:::
+
+## Why has it been so popular?
+
+-   The data itself (few overlapping data points, good distributions, linearity)
+
+-   Finally, a Simpson's paradox example in the wild!
+
+## Why has it been so popular?
+
+-   The R package format - so easy to just use
+
+-   Reduces time to first pretty plot
+
+-   Allison's art
+
+## From polar research project to global teaching product
+
+::: columns
+::: column
+-   Antarctic data should be available to the world - no geopolitical boundaries
+
+-   When you collect data as a scientist, you are collecting knowledge that you may not even imagine how it will be used
+:::
+
+::: column
+[![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)
+:::
+:::
