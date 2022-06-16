@@ -8,6 +8,7 @@ format:
   revealjs:
     theme: ["pp.scss"]
     slide-number: c/t
+    incremental: true
     title-slide-attributes:
       data-background-image: img/antarctica.jpg
       data-background-size: cover  
@@ -21,6 +22,7 @@ library(palmerpenguins)
 
 # for interactive plots
 library(ggiraph)
+library(patchwork)
 
 # for color
 library(paletteer)
@@ -197,11 +199,10 @@ ggplot(trend, aes(date, colour = package)) +
 
 -   Aligns eerily well with iris data
 
-## palmerpenguins power team, assemble!
+## June 2020 (about 4 months after ☣️)
 
 ::: columns
 ::: {.column width="60%"}
-#### In June 2020 (about 4 months after ☣️)
 
 -   June 4: 🐦 In excitement, Allison Horst tweets about the penguins data
 
@@ -243,25 +244,110 @@ contents...
 
 ::: columns
 ::: column
--   Penguins? Penguins! (easy to see & say)
+-   Penguins! (easy to see & say)
 
--   Parallels with `iris` but with more basic structural measurements
+-   More basic structural measurements than `iris`
 
--   Open license
+-   [Open license](https://allisonhorst.github.io/palmerpenguins/LICENSE.html)
 :::
 
 ::: column
-Reviewer #1: define "flipper" for the laypeople audience
-
-"flippers are the modified 'wings' of penguins used for maneuvering in water"
+[![Penguin bills art by Allison Horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png){fig-alt="Penguin bill length is measured from start to tip of bill, whereas bill depth is measured from top of bill to bottom" fig-align="right"}](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 :::
 :::
 
 ## Why has it been so popular?
 
--   The data itself (few overlapping data points, good distributions, linearity)
+::: columns
 
--   Finally, a Simpson's paradox example in the wild!
+::: column
+The data itself 
+- few overlapping data points
+- good distributions
+- linearity
+:::
+
+::: column
+Finally, a Simpson's paradox example in the wild!
+:::
+
+```{r}
+# Simpson's Paradox example (bill dimensions, omitting species):
+simpson_nospecies_base <- penguins %>%
+  # doing this so ggiraph recognizes species across plots
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species)
+  ) %>%
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  theme(panel.border = element_rect(fill = NA, color = "gray70")) +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)")
+
+simpson_nospecies <- simpson_nospecies_base +
+  geom_point(color = "gray40", alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = FALSE, color = "black")
+
+# Bill dimensions, including species:
+simpson_wspecies_base <-
+  penguins %>%
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species)
+    ) %>%
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, group = species)) +
+
+  scale_color_paletteer_d("colorblindr::OkabeIto") +
+  theme(panel.border = element_rect(fill = NA, color = "gray70")) +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)") +
+  guides(color = guide_legend("Species"),
+           shape = guide_legend("Species"))
+
+nospecies_tooltip <- c(str_c("Bill length (mm) = ", penguins$bill_length_mm,
+                            "\n Bill depth (g) = ", penguins$bill_depth_mm,
+                            "\n Species = ", penguins$species))
+
+simpson_nospecies_int <-
+  simpson_nospecies_base +
+  geom_point_interactive(aes(tooltip = nospecies_tooltip,
+                             data_id = species),
+                         size = 2,
+                         alpha = 0.8) +
+  geom_smooth_interactive(method = lm,
+                          se = FALSE,
+                          color = "black"
+  )
+
+
+wspecies_tooltip <- c(str_c("Bill length (mm) = ", penguins$bill_length_mm,
+                             "\n Bill depth (g) = ", penguins$bill_depth_mm,
+                             "\n Species = ", penguins$species))
+
+simpson_wspecies_int <-
+  simpson_wspecies_base +
+  geom_point_interactive(aes(color = species,
+                             shape = species,
+                             tooltip = wspecies_tooltip,
+                             data_id = species),
+                         size = 2,
+                         alpha = 0.8) +
+  geom_smooth_interactive(aes(color= species,
+                              data_id= species),
+                          method = lm,
+                          se = FALSE
+  )
+
+girafe(code = print(simpson_nospecies_int + simpson_wspecies_int + plot_annotation(tag_levels = 'A')),
+       width_svg = 6,
+       height_svg = 3,
+       options = list(
+         opts_hover_inv(css = "opacity:0.2;"),
+         opts_hover(css = "opacity:1; filter: brightness(90%);")
+       ))
+```
+
+:::
 
 ## Why has it been so popular?
 
@@ -269,7 +355,7 @@ Reviewer #1: define "flipper" for the laypeople audience
 
 -   Reduces time to first pretty plot
 
--   Allison's art
+-   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
 ## From polar research project to global teaching product
 
