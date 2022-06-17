@@ -43,3 +43,16 @@ $linkColorHover: darken( $linkColor, 20% );
 // Text selection
 $selectionBackgroundColor: #FF5E99;
 $selectionColor: #fff;
+
+// start using css here
+#title-slide > h1 {
+  color: white;
+}
+
+#title-slide .author {
+  color: white;
+}
+
+#title-slide {
+  top: 5px;
+}

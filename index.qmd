@@ -10,7 +10,7 @@ format:
     slide-number: c/t
     incremental: true
     title-slide-attributes:
-      data-background-image: img/antarctica.jpg
+      data-background-image: img/penguin-highway.jpg
       data-background-size: cover  
 editor: visual
 ---
@@ -117,6 +117,10 @@ girafe(ggobj = penguin_linear_int,
 :::
 :::
 
+::: {.notes}
+Kristen presents
+:::
+
 ## palmerpenguins popularity
 
 ```{r}
@@ -157,6 +161,10 @@ ggplot(trend, aes(date)) +
 :::
 :::
 
+::: {.notes}
+Kristen presents
+:::
+
 ## How the penguins came to be
 
 ::: columns
@@ -174,6 +182,10 @@ ggplot(trend, aes(date)) +
 :::
 
 [^1]: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. <https://doi.org/10.1371/journal.pone.0090081>
+
+::: {.notes}
+Kristen presents
+:::
 
 ## Wanted: an alternative to iris
 
@@ -199,6 +211,10 @@ ggplot(trend, aes(date)) +
 :::
 :::
 
+::: {.notes}
+Allison presents
+:::
+
 ## Just looking at penguin pictures
 
 ::: columns
@@ -215,6 +231,10 @@ ggplot(trend, aes(date)) +
 ::: {.column width="40%"}
 [![Art by Rohan Chakravarty](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/penguins-of-the-world.JPG){fig-alt="21 of the described species with their respective IUCN status. Aquatic and flightless birds with remarkable swimming adaptations, penguins inhabit the Southern hemisphere (except the Galapagos Penguin). They range in size from the 45 kg Emperor Penguin to the 1.5 kg Little Penguin. Penguins are threatened by habitat loss and climate change, and the African, Galapagos and Yellow-eyed are some of the most endangered penguin species." width="80%"}](https://www.greenhumour.com/2018/04/penguins-of-world.html)
 :::
+:::
+
+::: {.notes}
+Allison presents
 :::
 
 ## Finding the one
@@ -274,6 +294,10 @@ girafe(code = print(penguin_linear_int + iris_linear_int),
 :::
 :::
 
+::: {.notes}
+Allison presents
+:::
+
 ## June 2020 \~4 months into lockdown ☣️
 
 ::: columns
@@ -300,6 +324,10 @@ girafe(code = print(penguin_linear_int + iris_linear_int),
 :::
 :::
 
+::: {.notes}
+Allison presents
+:::
+
 ## The making of...
 
 ::: columns
@@ -314,23 +342,23 @@ contents...
 :::
 :::
 
+::: {.notes}
+Alison HILL presents
+:::
+
 ## Penguins in the wild
+
+::: {.notes}
+Alison HILL presents
+:::
 
 ## Why has it been so popular?
 
-::: columns
-::: column
--   Penguins! (rare to see IRL, but so easy to see & say)
+-   The R package format - so easy to just use
 
--   More basic structural measurements than `iris`
+-   Reduces time to first pretty plot
 
--   [Open license](https://allisonhorst.github.io/palmerpenguins/LICENSE.html)
-:::
-
-::: column
-[![Penguin bills art by Allison Horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png){fig-alt="Penguin bill length is measured from start to tip of bill, whereas bill depth is measured from top of bill to bottom" fig-align="right"}](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
-:::
-:::
+-   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
 ## Why has it been so popular?
 
@@ -416,13 +444,27 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
 ```
 :::
 
+## 
+
 ## Why has it been so popular?
 
--   The R package format - so easy to just use
+::: columns
+::: column
+-   Penguins! (rare to see IRL, but so easy to see & say)
 
--   Reduces time to first pretty plot
+-   More basic structural measurements than `iris`
 
--   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
+-   [Open license](https://allisonhorst.github.io/palmerpenguins/LICENSE.html)
+:::
+
+::: column
+![Penguin bills art by Allison Horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png){alt="Penguin bills art by Allison Horst" fig-alt="Penguin bill length is measured from start to tip of bill, whereas bill depth is measured from top of bill to bottom" fig-align="right"}
+:::
+:::
+
+::: {.notes}
+Alison HILL presents
+:::
 
 ## From polar research project to global teaching product
 
@@ -443,3 +485,9 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
 What questions do you have?
 
 We wish to thank:
+
+-   Marty Downs at LTER
+
+-   Hadley Wickham (RStudio)
+
+-   
