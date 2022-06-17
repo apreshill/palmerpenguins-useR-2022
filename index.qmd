@@ -62,7 +62,7 @@ saveRDS(dl, file = "data/cran-downloads.RDS")
 
 -   `r nrow(penguins)` penguins
 
--   `r n_distinct(penguins$species)` penguin species
+-   `r n_distinct(penguins$species)` penguin species (Adélie, chinstrap, and gentoo)
 
 -   `Inf` fun
 :::
@@ -161,7 +161,7 @@ ggplot(trend, aes(date)) +
 
 ::: columns
 ::: {.column width="50%"}
-![Dr. Kristen Gorman in the field, surrounded by penguins](img/kristen.png){fig-alt="Dr. Kristen Gorman in the field, surrounded by penguins"}
+![Dr. Kristen Gorman in the field, surrounded by penguins, at islands near Palmer Archipelago, Antarctica](img/kristen.png){fig-alt="Dr. Kristen Gorman in the field, surrounded by penguins, at islands near Palmer Archipelago, Antarctica"}
 :::
 
 ::: {.column width="50%"}
@@ -185,29 +185,96 @@ ggplot(trend, aes(date)) +
 ::: column
 -   Collected by botanist Edgar Anderson in 1935
 
--   50 size measurements for 3 species of iris
+-   `r nrow(iris)` size measurements for `r n_distinct(iris$Species)` species of iris
 
 -   No missing values
 
 -   Lacks metadata
 
--   Non-intuitive variables (e.g. "sepal.width")
+-   Variables like `Sepal.Width`
 
--   Used \*everywhere\* in data science teaching & resources
+-   Used *everywhere* in data science teaching & resources
 
 -   Published in The Annals of Eugenics (RA Fisher, 1936)
 :::
 :::
 
-## Penguins to the rescue
+## "sooo now I'm just looking at penguin pictures" --- Allison Horst
 
--   Eternal search for useful teaching datasets
+::: columns
+::: {.column width="60%"}
+-   Allison and Alison independently on eternal searches for useful teaching datasets
 
--   Size measurements for 344 individual penguins (Adélie, chinstrap and gentoo) recorded at islands near Palmer Archipelago, Antarctica by [Gorman et al.](https://dx.plos.org/10.1371/journal.pone.0090081)
+-   Allison stumbles upon [Gorman et al.](https://dx.plos.org/10.1371/journal.pone.0090081) and shares it with Alison
+
+    [![Alison writes a blog post with penguins after Allison shares it with her](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+:::
+
+::: {.column width="40%"}
+[![Art by Rohan Chakravarty](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/penguins-of-the-world.JPG){fig-alt="21 of the described species with their respective IUCN status. Aquatic and flightless birds with remarkable swimming adaptations, penguins inhabit the Southern hemisphere (except the Galapagos Penguin). They range in size from the 45 kg Emperor Penguin to the 1.5 kg Little Penguin. Penguins are threatened by habitat loss and climate change, and the African, Galapagos and Yellow-eyed are some of the most endangered penguin species." width="80%"}](https://www.greenhumour.com/2018/04/penguins-of-world.html)
+:::
+:::
+
+## Finding the one
+
+::: columns
+::: column
+-   Meanwhile, Allison keeps playing with the penguins
+
+-   And plotting with the penguins
+
+-   And looking at more penguin pictures
 
 -   Aligns eerily well with iris data
+:::
 
-## June 2020 (about 4 months after ☣️)
+::: column
+```{r}
+# Iris linear relationships (petal dimensions):
+iris_linear_base <- ggplot(iris, aes(x = Petal.Length, y = Petal.Width)) +
+  scale_color_manual(values = c("gray70","gray40","black")) +
+  theme(legend.position = c(0.2, 0.85)) +
+  labs(x = "Petal length (cm)",
+       y = "Petal width (cm)") +
+  theme(plot.title.position = "plot",
+        #panel.grid = element_blank(),
+        panel.border = element_rect(fill = NA, color = "gray70"),
+        legend.title = element_blank())
+
+iris_tooltip <- c(str_c("Petal length = ", iris$Petal.Length,
+                        "\n Petal width = ", iris$Petal.Width,
+                        "\n Species = ", iris$Species))
+
+iris_linear_int <-
+  iris_linear_base +
+  geom_point_interactive(aes(color = Species,
+                             shape = Species,
+                             tooltip = iris_tooltip,
+                             data_id = Species),
+                         size = 2,
+                         alpha = .8
+                         ) +
+  geom_smooth_interactive(aes(group = Species,
+                              color = Species,
+                              data_id= Species),
+                          method = lm,
+                          se = FALSE
+  )
+
+girafe(code = print(penguin_linear_int + iris_linear_int),
+       width_svg = 8,
+       height_svg = 4,
+       options = list(
+         opts_hover_inv(css = "opacity:0.2;"),
+         opts_hover(css = "opacity:1; filter: brightness(90%);")
+       ))
+```
+:::
+:::
+
+## June 2020
+
+#### About 4 months into lockdown ☣️
 
 ::: columns
 ::: {.column width="60%"}
