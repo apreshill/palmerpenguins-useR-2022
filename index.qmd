@@ -209,7 +209,7 @@ ggplot(trend, aes(date)) +
 
 -   Alison writes a [blog post](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/) with penguins after Allison shares it with her
 
-    [![Screenshot from Alison's first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+    [![Screenshot from Alison\'s first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
 :::
 
 ::: {.column width="40%"}
@@ -282,7 +282,7 @@ girafe(code = print(penguin_linear_int + iris_linear_int),
 
     -   📦 Alison asks "Do you wanna build a package?"
 
-    -   ⛔ Allison deletes tweet to clarify licensing questions
+    -   ❓Allison deletes tweet to sort out license
 
 -   1 day later: 🔏 Allison emails Kristen about use & license
 
