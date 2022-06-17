@@ -207,7 +207,9 @@ ggplot(trend, aes(date)) +
 
 -   Allison stumbles upon [Gorman et al.](https://dx.plos.org/10.1371/journal.pone.0090081) and shares it with Alison
 
-    [![Alison writes a blog post with penguins after Allison shares it with her](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+    [![Screenshot from Alison's first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+
+-   Alison writes a [blog post](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/) with penguins after Allison shares it with her
 :::
 
 ::: {.column width="40%"}
