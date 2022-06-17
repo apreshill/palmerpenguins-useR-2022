@@ -199,7 +199,7 @@ ggplot(trend, aes(date)) +
 :::
 :::
 
-## "sooo now I'm just looking at penguin pictures" --- Allison Horst
+## Just looking at penguin pictures
 
 ::: columns
 ::: {.column width="60%"}
