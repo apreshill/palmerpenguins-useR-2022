@@ -151,7 +151,7 @@ ggplot(trend, aes(date)) +
 
 -   \> `r scales::number(sum(dl$count), big.mark = ",", accuracy = 100)` CRAN downloads since `r start_date`
 
--   Used globally in courses, workshops, & content
+-   Used globally in courses, workshops, blog posts, and other learning materials
 
 -   `penguins` now in [Python](https://github.com/mcnakhaee/palmerpenguins), [Julia](https://juliahub.com/ui/Packages/PalmerPenguins/L7ZJc/0.1.4), and [TensorFlow](https://www.tensorflow.org/datasets/catalog/penguins)
 :::
@@ -197,6 +197,8 @@ Kristen presents
 ::: column
 -   Collected by botanist Edgar Anderson in 1935
 
+-   Used *everywhere* in data science teaching & resources
+
 -   `r nrow(iris)` size measurements for `r n_distinct(iris$Species)` species of iris
 
 -   No missing values
@@ -205,8 +207,6 @@ Kristen presents
 
 -   Variables like `Sepal.Width`
 
--   Used *everywhere* in data science teaching & resources
-
 -   Published in The Annals of Eugenics (RA Fisher, 1936)
 :::
 :::
@@ -214,6 +214,8 @@ Kristen presents
 ::: {.notes}
 Allison presents
 :::
+
+## There has to be better data
 
 ## Just looking at penguin pictures
 
@@ -444,17 +446,17 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
 ```
 :::
 
-## 
-
 ## Why has it been so popular?
 
 ::: columns
 ::: column
 -   Penguins! (rare to see IRL, but so easy to see & say)
 
--   More basic structural measurements than `iris`
+-   Understandable structural measurements
 
--   [Open license](https://allisonhorst.github.io/palmerpenguins/LICENSE.html)
+-   [Open license](https://allisonhorst.github.io/palmerpenguins/LICENSE.html) underlying the data
+
+-   Ecology of species is relevant to global climate change
 :::
 
 ::: column
@@ -463,7 +465,7 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
 :::
 
 ::: {.notes}
-Alison HILL presents
+Kristen presents
 :::
 
 ## From polar research project to global teaching product
