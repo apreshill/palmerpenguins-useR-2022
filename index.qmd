@@ -272,21 +272,21 @@ girafe(code = print(penguin_linear_int + iris_linear_int),
 :::
 :::
 
-## June 2020
-
-#### About 4 months into lockdown ☣️
+## June 2020 \~4 months into lockdown ☣️
 
 ::: columns
 ::: {.column width="60%"}
 -   June 4: 🐦 In excitement, Allison Horst tweets about the penguins data
 
-    -   📦 Alison Hill responds "Do you wanna build a package?"
+    -   📦 Alison asks "Do you wanna build a package?"
 
     -   ⛔ Allison deletes tweet to clarify licensing questions
 
 -   1 day later: 🔏 Allison emails Kristen about use & license
 
 -   3 days later (June 8): 🚀 palmerpenguins power team assembles for the first time!
+
+-   Same day (June 8): 🏆 Allison Horst tweets (again) --- with clear license info
 
 -   45 days later (July 23): 🎁 available on [CRAN](https://cran.r-project.org/web/packages/palmerpenguins/index.html)
 :::
