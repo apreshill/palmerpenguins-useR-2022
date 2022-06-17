@@ -1,9 +1,9 @@
 ---
 title: "The untold story of palmerpenguins 🐧"
 author:
+  - Dr. Kristen Gorman, University of Alaska Fairbanks
   - Dr. Allison Horst, UC Santa Barbara
   - Dr. Alison Hill, Voltron Data
-  - Dr. Kristen Gorman, University of Alaska Fairbanks
 format: 
   revealjs:
     theme: ["pp.scss"]
@@ -209,7 +209,7 @@ ggplot(trend, aes(date)) +
 
 -   Alison writes a [blog post](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/) with penguins after Allison shares it with her
 
-    [![Screenshot from Alison\'s first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+    [![Screenshot from Alison's first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
 :::
 
 ::: {.column width="40%"}
