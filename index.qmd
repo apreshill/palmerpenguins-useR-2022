@@ -1,9 +1,9 @@
 ---
 title: "The untold story of palmerpenguins 🐧"
 author:
-  - Dr. Kristin Gorman
-  - Dr. Allison Horst
-  - Dr. Alison Hill
+  - Dr. Allison Horst, UC Santa Barbara
+  - Dr. Alison Hill, Voltron Data
+  - Dr. Kristen Gorman, University of Alaska Fairbanks
 format: 
   revealjs:
     theme: ["pp.scss"]
@@ -39,7 +39,7 @@ showtext_auto()
 theme_set(theme_minimal(base_family = "Jost"))
 
 # for reporting cran downloads
-start_date <- "2020-04-01"
+start_date <- "2020-07-23"
 end_date <- "2022-06-15"
 ```
 
@@ -58,7 +58,7 @@ saveRDS(dl, file = "data/cran-downloads.RDS")
 
 ::: columns
 ::: column
--   An R package featuring the **penguins** dataset
+-   An R package featuring the `penguins` dataset
 
 -   `r nrow(penguins)` penguins
 
@@ -124,37 +124,9 @@ dl <- readRDS("data/cran-downloads.RDS")
 ```
 
 ::: columns
-::: column
--   \> `r scales::number(sum(dl$count), big.mark = ",", accuracy = 100)` CRAN downloads since `r start_date`
-
--   Used in courses, workshops, & content
-
--   `penguins` now in Python, Julia, TensorFlow libraries
-:::
-
-::: column
-```{r cran-line}
-ggplot(dl, aes(date, count)) +
-  geom_line(color = "#336688") +
-  labs(y = "Daily downloads", x = NULL)
-```
-:::
-:::
-
-```{r cran-median}
-#| out.width: 80%
-weekly_median <-
-  dl %>% 
-  group_by(week = lubridate::week(date), package) %>% 
-  summarize(median_dl = median(count),
-            begin_week = min(date))
-ggplot(weekly_median, aes(begin_week, median_dl, 
-               color = package)) +
-  geom_line(color = "#336688", lwd = 1) +
-  labs(y = "Median weekly downloads", x = NULL) 
-```
-
+::: {.column width="80%"}
 ```{r cran-trend}
+#| fig.height: 4
 # from https://github.com/hadley/cran-downloads/blob/master/server.R
 show_trend <- function(df) {
   count_ts <- ts(df$count, frequency = 7)
@@ -167,16 +139,50 @@ show_trend <- function(df) {
   df
 }
 trend <- dl %>% group_by(package) %>% do(show_trend(.))
-ggplot(trend, aes(date, colour = package)) +
+ggplot(trend, aes(date)) +
   geom_linerange(aes(ymin = trend, ymax = trend + remainder), colour = "grey70", alpha = .5, lwd = 1) +
-  geom_line(aes(y = trend), lwd = 1) +
+  geom_line(aes(y = trend), color = "#FB7967", lwd = 1) +
   labs(y = "Daily downloads (smoothed)", x = NULL) 
 ```
 
-## A brief history
+-   \> `r scales::number(sum(dl$count), big.mark = ",", accuracy = 100)` CRAN downloads since `r start_date`
+
+-   Used globally in courses, workshops, & content
+
+-   `penguins` now in [Python](https://github.com/mcnakhaee/palmerpenguins), [Julia](https://juliahub.com/ui/Packages/PalmerPenguins/L7ZJc/0.1.4), and [TensorFlow](https://www.tensorflow.org/datasets/catalog/penguins)
+:::
+
+::: {.column width="20%"}
+[![palmerpenguins hex sticker by Allison Horst](https://allisonhorst.github.io/palmerpenguins/reference/figures/palmerpenguins.png){fig-alt="palmerpenguins hex sticker with all three penguin species by Allison Horst"}](https://allisonhorst.github.io/palmerpenguins/index.html)
+:::
+:::
+
+## How the penguins came to be
+
+::: columns
+::: {.column width="50%"}
+![Dr. Kristen Gorman in the field, surrounded by penguins](img/kristen.png){fig-alt="Dr. Kristen Gorman in the field, surrounded by penguins"}
+:::
+
+::: {.column width="50%"}
+-   An integrative study of the breeding ecology and population structure of Pygoscelis penguins along the western Antarctic Peninsula as part of the Palmer LTER Program (US NSF)
+
+-   The data were [originally published](https://doi.org/10.1371/journal.pone.0090081) in PLoS ONE in 2014[^1]
+
+-   All data were made available through the [Environmental Data Initiative](https://environmentaldatainitiative.org)
+:::
+:::
+
+[^1]: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. <https://doi.org/10.1371/journal.pone.0090081>
 
 ## Wanted: an alternative to iris
 
+::: columns
+::: column
+[![Measurements of an iris flower (source: Science Direct)](img/iris.jpeg){fig-alt="Measurements of an iris flower"}](https://www.sciencedirect.com/topics/mathematics/virginica)
+:::
+
+::: column
 -   Collected by botanist Edgar Anderson in 1935
 
 -   50 size measurements for 3 species of iris
@@ -190,6 +196,8 @@ ggplot(trend, aes(date, colour = package)) +
 -   Used \*everywhere\* in data science teaching & resources
 
 -   Published in The Annals of Eugenics (RA Fisher, 1936)
+:::
+:::
 
 ## Penguins to the rescue
 
@@ -203,7 +211,6 @@ ggplot(trend, aes(date, colour = package)) +
 
 ::: columns
 ::: {.column width="60%"}
-
 -   June 4: 🐦 In excitement, Allison Horst tweets about the penguins data
 
     -   📦 Alison Hill responds "Do you wanna build a package?"
@@ -244,7 +251,7 @@ contents...
 
 ::: columns
 ::: column
--   Penguins! (easy to see & say)
+-   Penguins! (rare to see IRL, but so easy to see & say)
 
 -   More basic structural measurements than `iris`
 
@@ -259,16 +266,12 @@ contents...
 ## Why has it been so popular?
 
 ::: columns
-
 ::: column
-The data itself 
-- few overlapping data points
-- good distributions
-- linearity
+The data itself---good distributions, linearity
 :::
 
 ::: column
-Finally, a Simpson's paradox example in the wild!
+A Simpson's paradox example in the wild!
 :::
 
 ```{r}
@@ -283,10 +286,6 @@ simpson_nospecies_base <- penguins %>%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
   theme(panel.border = element_rect(fill = NA, color = "gray70")) +
   labs(x = "Bill length (mm)", y = "Bill depth (mm)")
-
-simpson_nospecies <- simpson_nospecies_base +
-  geom_point(color = "gray40", alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", se = FALSE, color = "black")
 
 # Bill dimensions, including species:
 simpson_wspecies_base <-
@@ -313,7 +312,7 @@ simpson_nospecies_int <-
   geom_point_interactive(aes(tooltip = nospecies_tooltip,
                              data_id = species),
                          size = 2,
-                         alpha = 0.8) +
+                         alpha = 0.6) +
   geom_smooth_interactive(method = lm,
                           se = FALSE,
                           color = "black"
@@ -331,14 +330,14 @@ simpson_wspecies_int <-
                              tooltip = wspecies_tooltip,
                              data_id = species),
                          size = 2,
-                         alpha = 0.8) +
+                         alpha = 0.6) +
   geom_smooth_interactive(aes(color= species,
                               data_id= species),
                           method = lm,
                           se = FALSE
   )
 
-girafe(code = print(simpson_nospecies_int + simpson_wspecies_int + plot_annotation(tag_levels = 'A')),
+girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
        width_svg = 6,
        height_svg = 3,
        options = list(
@@ -346,7 +345,6 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int + plot_annotati
          opts_hover(css = "opacity:1; filter: brightness(90%);")
        ))
 ```
-
 :::
 
 ## Why has it been so popular?
@@ -370,3 +368,9 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int + plot_annotati
 [![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)
 :::
 :::
+
+## Thank you!
+
+What questions do you have?
+
+We wish to thank:
