@@ -245,7 +245,7 @@ Allison presents
 
 -   Alison writes a [blog post](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/) with penguins after Allison shares it with her
 
-    [![Screenshot from Alison\'s first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+    [![Screenshot from Alison's first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
 :::
 
 ::: {.column width="40%"}
@@ -400,7 +400,7 @@ Alison HILL presents
 
 -   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
-    [![Allison Horst's illustration of the 3 penguin species](img/allison-penguins.png)](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
+    [![Allison Horst\'s illustration of the 3 penguin species](img/allison-penguins.png)](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
 ## Allison: Why has it been so popular?
 
