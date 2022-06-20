@@ -900,7 +900,7 @@ girafe(code = print(pb_kmeans_int + ip_kmeans_int),
 :::
 
 
-## Kristin: Why has it been so popular?
+## Kristen: Why has it been so popular?
 
 ::: columns
 ::: column
@@ -932,7 +932,7 @@ Kristen presents
 :::
 
 ::: column
-![Map of Antarctica by Kristin Gorman](img/antarctic-modis.jpg){fig-alt="Map of Antarctica by Kristin Gorman" fig-align="center"}
+![Map of Antarctica by Kristen Gorman](img/antarctic-modis.jpg){fig-alt="Map of Antarctica by Kristen Gorman" fig-align="center"}
 <!--[![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)-->
 :::
 :::
