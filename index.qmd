@@ -400,7 +400,7 @@ Alison HILL presents
 
 -   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
-    [![Allison Horst\'s illustration of the 3 penguin species](img/allison-penguins.png)](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
+    [![Allison Horst\'s illustration of the 3 penguin species](img/allison-penguins.png){width="800"}](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
 ## Allison: Why has it been so popular?
 
