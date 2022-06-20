@@ -370,7 +370,7 @@ palmerpenguins::penguins
 
 > "I think this gives the best of both worlds — if you're running in a low dependency environment, you'll get a data frame." 
 >
-> — Hadley Wickham[^1]
+> — Hadley Wickham[^2]
 
 
 ```{r echo=FALSE}
@@ -382,7 +382,7 @@ palmerpenguins::penguins %>%
 Alison HILL presents
 :::
 
-[^1]: Thanks to Hadley [for this PR!](https://github.com/allisonhorst/palmerpenguins/pull/25)
+[^2]: Thanks to Hadley [for this PR!](https://github.com/allisonhorst/palmerpenguins/pull/25)
 
 ## {background-iframe="https://allisonhorst.github.io/palmerpenguins/"}
 
