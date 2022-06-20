@@ -195,6 +195,10 @@ Kristen presents
 Kristen presents
 :::
 
+## {background-image="img/avian-island.jpeg"}
+
+### Little did the penguin research team know... {.r-fit-text}
+
 ## Wanted: an alternative to iris
 
 ::: columns
@@ -348,7 +352,9 @@ Allison presents
 Allison presents
 :::
 
-## The making of...
+## {background-image="img/iceberg.jpeg"}
+
+### The making of... {.r-fit-text}
 
 ## For educators, by educators
 
