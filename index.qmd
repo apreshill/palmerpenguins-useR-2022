@@ -6,6 +6,7 @@ author:
   - Dr. Alison Hill, Voltron Data
 format: 
   revealjs:
+    multiplex: true
     theme: ["pp.scss"]
     slide-number: c/t
     incremental: true
@@ -165,7 +166,11 @@ ggplot(trend, aes(date)) +
 Kristen presents
 :::
 
-## How the penguins came to be
+## {background-image="img/penguins.png"}
+
+### How the penguins came to be {.r-fit-text}
+
+## The research
 
 ::: columns
 ::: {.column width="50%"}
@@ -215,13 +220,21 @@ Kristen presents
 Allison presents
 :::
 
-## There has to be better data
+## If something is a problem, offer a solution
 
-## Just looking at penguin pictures
+1. Keep using `iris` and use it as an opportunity to learn/teach about racism & racist history in statistics.
+
+2. Find a better dataset to replace `iris`. 
+
+
+## {background-image="img/penguin.jpeg"}
+
+### The eternal search for (better) useful datasets for teaching {.r-fit-text}
+
+## Serendipity
 
 ::: columns
 ::: {.column width="60%"}
--   Allison and Alison independently on eternal searches for useful teaching datasets
 
 -   Allison stumbles upon [Gorman et al.](https://dx.plos.org/10.1371/journal.pone.0090081) and shares it with Alison
 
@@ -332,15 +345,24 @@ Allison presents
 
 ## The making of...
 
+> "I think this gives the best of both worlds — if you're running in a low dependency environment, you'll get a data frame." 
+>
+> Hadley Wickham
+
 ::: columns
 ::: column
-```{=html}
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hi <a href="https://twitter.com/seankross?ref_src=twsrc%5Etfw">@seankross</a>, thanks for asking! <a href="https://twitter.com/apreshill?ref_src=twsrc%5Etfw">@apreshill</a> is helping me out to make this into a package, so expect a penguins data 📦 soon 😊 Hope you&#39;re well, maybe we can get you back up to SB soon?</p>&mdash; Allison Horst (@allison_horst) <a href="https://twitter.com/allison_horst/status/1270200118256431104?ref_src=twsrc%5Etfw">June 9, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+```{r echo=FALSE}
+palmerpenguins::penguins %>% 
+  as.data.frame()
 ```
+
 :::
 
 ::: column
-contents...
+```{r echo=FALSE}
+palmerpenguins::penguins 
+```
 :::
 :::
 
@@ -348,7 +370,9 @@ contents...
 Alison HILL presents
 :::
 
-## Penguins in the wild
+## {background-iframe="https://allisonhorst.github.io/palmerpenguins/"}
+
+## Penguins in the wild {background-image="img/penguins-wilder.jpg" background-size="contain"}
 
 ::: {.notes}
 Alison HILL presents
@@ -478,7 +502,8 @@ Kristen presents
 :::
 
 ::: column
-[![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)
+![Map of Antarctica by Kristin Gorman](img/antarctic-modis.jpg){fig-alt="Map of Antarctica by Kristin Gorman" fig-align="center"}
+<!--[![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)-->
 :::
 :::
 
@@ -488,8 +513,14 @@ What questions do you have?
 
 We wish to thank:
 
--   Marty Downs at LTER
+- Marty Downs at LTER
 
--   Hadley Wickham (RStudio)
+- Hadley Wickham (RStudio)
 
--   
+- Laura Navarro for [this plot](https://lauranavarroviz.wordpress.com/2020/08/01/palmer-penguins/)
+
+- Cedric Scherer for [this plot](https://www.behance.net/gallery/101517403/Bill-Dimensions-of-Penguins)
+
+- Silvia Canelon for her [great tutorial](https://www.silviacanelon.com/talk/2020-tour-of-the-tidyverse/)
+
+- The #rstats community for blogging, tweeting, visualizing, analyzing, teaching, and sharing about `palmerpenguins`
