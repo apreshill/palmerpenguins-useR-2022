@@ -24,6 +24,7 @@ library(palmerpenguins)
 # for interactive plots
 library(ggiraph)
 library(patchwork)
+library(shadowtext)
 
 # for color
 library(paletteer)
@@ -39,6 +40,8 @@ font_add_google("Jost", "Jost")
 showtext_auto()
 theme_set(theme_minimal(base_family = "Jost"))
 
+library(recipes)
+library(broom)
 # for reporting cran downloads
 start_date <- "2020-07-23"
 end_date <- "2022-06-15"
@@ -306,6 +309,8 @@ girafe(code = print(penguin_linear_int + iris_linear_int),
          opts_hover(css = "opacity:1; filter: brightness(90%);")
        ))
 ```
+
+
 :::
 :::
 
@@ -380,7 +385,7 @@ Alison HILL presents
 Alison HILL presents
 :::
 
-## Why has it been so popular?
+## Alison: Why has it been so popular?
 
 -   The R package format - so easy to just use
 
@@ -388,17 +393,89 @@ Alison HILL presents
 
 -   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
-## Why has it been so popular?
+## Allison: Why has it been so popular?
 
 ::: columns
 ::: column
 The data itself---good distributions, linearity
+
+```{r}
+# Simpson's Paradox example (body mass, omitting species):
+bmass_nospecies_base <- penguins %>%
+  # doing this so ggiraph recognizes species across plots
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species)
+  ) %>%
+  ggplot(aes(x = bill_depth_mm, y = body_mass_g)) +
+  theme(panel.border = element_rect(fill = NA, color = "gray70")) +
+  labs(x = "Bill depth (mm)", y = "Body mass (g)")
+
+# Body mass, including species:
+bmass_wspecies_base <-
+  penguins %>%
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species)
+    ) %>%
+  ggplot(aes(x = bill_depth_mm, y = body_mass_g, group = species)) +
+  scale_color_paletteer_d("colorblindr::OkabeIto") +
+  theme(panel.border = element_rect(fill = NA, color = "gray70")) +
+  labs(x = "Bill depth (mm)", y = "Body mass (g)") +
+  guides(color = guide_legend("Species"),
+           shape = guide_legend("Species"))
+
+nospecies_tooltip <- c(str_c("Bill depth (mm) = ", penguins$bill_depth_mm,
+                            "\n Body mass (g) = ", penguins$body_mass_g,
+                            "\n Species = ", penguins$species))
+
+bmass_nospecies_int <-
+  bmass_nospecies_base +
+  geom_point_interactive(aes(tooltip = nospecies_tooltip,
+                             data_id = species),
+                         size = 2,
+                         alpha = 0.8) +
+  geom_smooth_interactive(method = lm,
+                          se = FALSE,
+                          color = "black"
+  )
+
+
+wspecies_tooltip <- c(str_c("Bill depth (mm) = ", penguins$bill_depth_mm,
+                            "\n Body mass (g) = ", penguins$body_mass_g,
+                            "\n Species = ", penguins$species))
+
+bmass_wspecies_int <-
+  bmass_wspecies_base +
+  geom_point_interactive(aes(color = species,
+                             shape = species,
+                             tooltip = wspecies_tooltip,
+                             data_id = species),
+                         size = 2,
+                         alpha = 0.8) +
+  geom_smooth_interactive(aes(color= species,
+                              data_id= species),
+                          method = lm,
+                          se = FALSE
+  )
+
+
+girafe(code = print(bmass_nospecies_int + bmass_wspecies_int),
+       width_svg = 6,
+       height_svg = 3,
+       options = list(
+         opts_hover_inv(css = "opacity:0.2;"),
+         opts_hover(css = "opacity:1; filter: brightness(90%);")
+       ))
+
+```
+
 :::
 
 ::: column
-A Simpson's paradox example in the wild!
-:::
-
+Simpson's paradox examples in the wild!
 ```{r}
 # Simpson's Paradox example (bill dimensions, omitting species):
 simpson_nospecies_base <- penguins %>%
@@ -472,7 +549,351 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
 ```
 :::
 
-## Why has it been so popular?
+
+:::
+
+## Allison: Why has it been so popular?
+
+Good bones for multivariate analyses
+
+::: columns
+
+::: column
+
+Principle Components Analysis
+
+```{r}
+## ---- pca ---------------------------------------------------------
+# From Alison Hill's post for palmerpenguins pkgdown site
+
+### PENGUINS PCA:
+
+# Omit year
+penguins_noyr <- penguins %>%
+  select(-year) %>%
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species
+  )) %>%
+  mutate(species = as.factor(species))
+
+penguin_recipe <-
+  recipe(~., data = penguins_noyr) %>%
+  update_role(species, island, sex, new_role = "id") %>%
+  step_naomit(all_predictors()) %>%
+  step_normalize(all_predictors()) %>%
+  step_pca(all_predictors(), id = "pca") %>%
+  prep()
+
+penguin_pca <-
+  penguin_recipe %>%
+  tidy(id = "pca")
+
+penguin_percvar <- penguin_recipe %>%
+  tidy(id = "pca", type = "variance") %>%
+  dplyr::filter(terms == "percent variance")
+
+# Make the penguins PCA biplot:
+
+# Get pca loadings into wider format
+pca_wider <- penguin_pca %>%
+  tidyr::pivot_wider(names_from = component, id_cols = terms)
+
+# define arrow style:
+arrow_style <- arrow(length = unit(.05, "inches"),
+                     type = "closed")
+
+penguins_juiced <- juice(penguin_recipe)
+
+# Make the penguins PCA biplot:
+pca_plot <-
+  penguins_juiced %>%
+  ggplot(aes(PC1, PC2)) +
+  coord_cartesian(
+    xlim = c(-3, 4),
+    ylim = c(-2.5, 2))  +
+  scale_color_paletteer_d("colorblindr::OkabeIto") +
+  guides(color = guide_legend("Species"),
+        shape = guide_legend("Species")) +
+  theme(legend.position = "bottom",
+        panel.border = element_rect(color = "gray70", fill = NA))
+# For positioning (above):
+# 1: bill_length
+# 2: bill_depth
+# 3: flipper length
+# 4: body mass
+
+penguins_biplot <- pca_plot +
+  geom_segment(data = pca_wider,
+               aes(xend = PC1, yend = PC2),
+               x = 0,
+               y = 0,
+               arrow = arrow_style) +
+  geom_point(aes(color = species, shape = species),
+             alpha = 0.7,
+             size = 2) +
+  geom_shadowtext(data = pca_wider,
+                  aes(x = PC1, y = PC2, label = terms),
+                  nudge_x = c(0.7,0.7,1.7,1.2),
+                  nudge_y = c(-0.1,-0.2,0.1,-0.1),
+                  size = 4,
+                  color = "black",
+                  bg.color = "white")
+
+### IRIS PCA:
+
+iris_recipe <-
+  recipe(~., data = iris) %>%
+  update_role(Species, new_role = "id") %>%
+  step_normalize(all_predictors()) %>%
+  step_pca(all_predictors(), id = "pca") %>%
+  prep()
+iris_pca <-
+  iris_recipe %>%
+  tidy(id = "pca")
+
+### Iris PCA biplot:
+
+# Get pca loadings into wider format
+iris_wider <- iris_pca %>%
+  tidyr::pivot_wider(names_from = component, id_cols = terms)
+
+# define arrow style:
+arrow_style <- arrow(length = unit(.05, "inches"),
+                     type = "closed")
+
+iris_juiced <- juice(iris_recipe)
+
+# Make the iris PCA biplot:
+iris_pca_plot <-
+  iris_juiced %>%
+  ggplot(aes(PC1, PC2)) +
+  coord_cartesian(
+    xlim = c(-3, 3),
+    ylim = c(-3, 3)) +
+  scale_colour_manual(values = c("gray70","gray40","black")) +
+  theme(panel.background = element_rect(fill = NA, color = "gray70"),
+        legend.position = "bottom")
+
+iris_biplot <- iris_pca_plot  +
+  geom_point(aes(color = Species, shape = Species),
+             alpha = 0.8,
+             size = 2) +
+  geom_segment(data = iris_wider,
+               aes(xend = PC1, yend = PC2),
+               x = 0,
+               y = 0,
+               arrow = arrow_style) +
+  geom_shadowtext(data = iris_wider,
+                  aes(x = PC1, y = PC2, label = terms),
+                  nudge_x = c(0.5,0.3,1,1.2),
+                  nudge_y = c(-0.1,-0.2,0.1,-0.1),
+                  size = 4,
+                  color = "black",
+                  bg.color = "white")
+
+penguins_biplot_tooltip <- str_c("Species = ", penguins_juiced$species,
+                             "\n PC1 = ", round(penguins_juiced$PC1, 2),
+                             "\n PC2 = ", round(penguins_juiced$PC2, 2))
+
+penguins_biplot_int <- pca_plot +
+  geom_segment_interactive(data = pca_wider,
+               aes(xend = PC1, yend = PC2),
+               x = 0,
+               y = 0,
+               arrow = arrow_style) +
+  geom_point_interactive(aes(color = species, shape = species,
+                             tooltip = penguins_biplot_tooltip,
+                             data_id = species),
+             alpha = 0.7,
+             size = 2) +
+  geom_shadowtext(data = pca_wider,
+                  aes(x = PC1, y = PC2, label = terms),
+                  nudge_x = c(0.7,0.7,1.7,1.2),
+                  nudge_y = c(-0.1,-0.2,0.1,-0.1),
+                  size = 4,
+                  color = "black",
+                  bg.color = "white")
+
+# girafe(ggobj = penguins_biplot_int)
+
+iris_biplot_tooltip <- str_c("Species = ", iris_juiced$Species,
+                               "\n PC1 = ", round(iris_juiced$PC1, 2),
+                               "\n PC2 = ", round(iris_juiced$PC2, 2))
+
+iris_biplot_int <- iris_pca_plot +
+  geom_segment_interactive(data = iris_wider,
+                           aes(xend = PC1, yend = PC2),
+                           x = 0,
+                           y = 0,
+                           arrow = arrow_style) +
+  geom_point_interactive(aes(color = Species, shape = Species,
+                             tooltip = iris_biplot_tooltip,
+                             data_id = Species),
+                         alpha = 0.7,
+                         size = 2) +
+  geom_shadowtext(data = iris_wider,
+                  aes(x = PC1, y = PC2, label = terms),
+                  nudge_x = c(0.5,0,1,1),
+                  nudge_y = c(-0.1,-0.2,0.2,-0.1),
+                  size = 4,
+                  color = "black",
+                  bg.color = "white")
+
+girafe(code = print(penguins_biplot_int | iris_biplot_int),
+       width_svg = 6,
+       height_svg = 3,
+       options = list(
+         opts_hover_inv(css = "opacity:0.2;"),
+         opts_hover(css = "opacity:1; filter: brightness(90%);")
+       ))
+
+```
+
+:::
+
+::: column
+
+K-means
+
+```{r}
+## ---- kmeans ---------------------------------------------------------
+
+# TWO VARIABLE k-means comparison
+# Penguins: Bill length vs. bill depth
+pb_species <- penguins %>%
+  select(species, starts_with("bill")) %>%
+  drop_na() %>%
+  mutate(species = as.character(species)) %>%
+  mutate(species = case_when(
+    species == "Adelie" ~ "Adélie",
+    TRUE ~ species
+  )) %>%
+  mutate(species = as.factor(species))
+
+# Prep penguins for k-means:
+pb_nospecies <- pb_species %>%
+  select(-species) %>%
+  recipe() %>%
+  step_normalize(all_numeric()) %>%
+  prep() %>%
+  juice()
+
+# Perform k-means on penguin bill dimensions (k = 3, w/20 centroid starts)
+
+# Save augmented data
+set.seed(100)
+pb_clust <-
+  pb_nospecies %>%
+  kmeans(centers = 3, nstart = 20) %>%
+  broom::augment(pb_species)
+
+# Get counts in each cluster by species
+pb_clust_n <- pb_clust %>%
+  count(species, .cluster) %>%
+  pivot_wider(names_from = species, values_from = n, names_sort = TRUE) %>%
+  arrange(.cluster) %>%
+  replace_na(list(`Adelie` = 0))
+
+### Iris k-means
+# Iris: petal length vs. petal width
+
+# Select only petal dimensions:
+ip_species <- iris %>%
+  select(Species, starts_with("Petal"))
+
+# Remove species factor & scale petal dimensions:
+ip_nospecies <- ip_species %>%
+  select(-Species) %>%
+  recipe() %>%
+  step_normalize(all_numeric()) %>%
+  prep() %>%
+  juice()
+
+# Perform k-means on iris petal dimensions (k = 3, w/20 centroid starts):
+set.seed(100)
+ip_clust <-
+  ip_nospecies %>%
+  kmeans(centers = 3, nstart = 20) %>%
+  broom::augment(ip_species)
+
+# Get iris counts in each cluster by species:
+ip_clust_n <- ip_clust %>%
+  count(Species, .cluster) %>%
+  pivot_wider(names_from = Species, values_from = n, names_sort = TRUE) %>%
+  arrange(.cluster) %>%
+  replace_na(list(`setosa` = 0, `versicolor` = 0, `virginica` = 0))
+
+
+# Plot penguin k-means clusters:
+# make a base plot b/c https://github.com/plotly/plotly.R/issues/1942
+pb_kmeans_base <-
+  pb_clust %>%
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  scale_color_paletteer_d("colorblindr::OkabeIto") +
+  scale_fill_paletteer_d("colorblindr::OkabeIto") +
+  scale_x_continuous(limits = c(30, 60),
+                     breaks = c(30, 40, 50, 60)) +
+  theme(legend.position = "bottom",
+        panel.border = element_rect(fill = NA, color = "gray70")) +
+  labs(x = "Bill length (mm)",
+       y = "Bill depth (mm)",
+       color = "Species")
+
+# Plot iris k-means clusters:
+# make a base plot b/c https://github.com/plotly/plotly.R/issues/1942
+ip_kmeans_base <-
+  ip_clust %>%
+  ggplot(aes(x = Petal.Length, y = Petal.Width)) +
+  theme(legend.position = "bottom",
+        panel.border = element_rect(fill = NA, color = "gray70")) +
+  scale_color_manual(values = c("gray70","gray50","black"))  +
+  labs(x = "Petal length (cm)",
+       y = "Petal width (cm)")
+
+pb_tooltip <- str_c("Cluster: ", pb_clust$.cluster,
+                      "\n Species: ", pb_clust$species,
+                      "\n Bill length (mm): ", pb_clust$bill_length_mm,
+                      "\n Bill depth (mm) : ", pb_clust$bill_depth_mm)
+
+pb_kmeans_int <- pb_kmeans_base +
+  geom_text_interactive(aes(
+    label = .cluster,
+    color = species,
+    tooltip = pb_tooltip,
+    data_id = species),
+    size = 3,
+    check_overlap = TRUE)
+
+ip_tooltip <- str_c("Cluster: ", ip_clust$.cluster,
+                      "\n Species: ", ip_clust$Species,
+                      "\n Petal Length (cm): ", ip_clust$Petal.Length,
+                      "\n Petal Width (cm): ", ip_clust$Petal.Width)
+
+ip_kmeans_int <- ip_kmeans_base +
+  geom_text_interactive(aes(
+    label = .cluster,
+    color = Species,
+    tooltip = ip_tooltip,
+    data_id = Species),
+    size = 3,
+    check_overlap = TRUE)
+
+girafe(code = print(pb_kmeans_int + ip_kmeans_int),
+       width_svg = 6,
+       height_svg = 3,
+       options = list(
+         opts_hover_inv(css = "opacity:0.1;"),
+         opts_hover(css = "opacity:1; filter: brightness(90%);")
+       ))
+```
+:::
+
+:::
+
+
+## Kristin: Why has it been so popular?
 
 ::: columns
 ::: column
