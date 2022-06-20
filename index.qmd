@@ -350,26 +350,33 @@ Allison presents
 
 ## The making of...
 
+## For educators, by educators
+
+```{r echo=TRUE}
+library(palmerpenguins)
+path_to_file()
+path_to_file("penguins_raw.csv")
+head(read.csv(path_to_file("penguins.csv")))
+```
+
+
+## To tibble or...
+
+```{r echo=FALSE}
+palmerpenguins::penguins 
+```
+
+## Not to tibble, that is the question
+
 > "I think this gives the best of both worlds — if you're running in a low dependency environment, you'll get a data frame." 
 >
-> Hadley Wickham[^1]
+> — Hadley Wickham[^1]
 
-::: columns
-::: column
 
 ```{r echo=FALSE}
 palmerpenguins::penguins %>% 
   as.data.frame()
 ```
-
-:::
-
-::: column
-```{r echo=FALSE}
-palmerpenguins::penguins 
-```
-:::
-:::
 
 ::: {.notes}
 Alison HILL presents
