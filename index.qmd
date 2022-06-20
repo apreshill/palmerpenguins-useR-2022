@@ -347,7 +347,7 @@ Allison presents
 
 > "I think this gives the best of both worlds — if you're running in a low dependency environment, you'll get a data frame." 
 >
-> Hadley Wickham
+> Hadley Wickham[^1]
 
 ::: columns
 ::: column
@@ -370,9 +370,11 @@ palmerpenguins::penguins
 Alison HILL presents
 :::
 
+[^1]: Thanks to Hadley [for this PR!](https://github.com/allisonhorst/palmerpenguins/pull/25)
+
 ## {background-iframe="https://allisonhorst.github.io/palmerpenguins/"}
 
-## Penguins in the wild {background-image="img/penguins-wilder.jpg" background-size="contain"}
+## Penguins in the wild {background-image="img/penguins-wilder.png" background-size="contain"}
 
 ::: {.notes}
 Alison HILL presents
