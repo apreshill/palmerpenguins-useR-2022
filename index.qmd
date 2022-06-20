@@ -121,7 +121,7 @@ girafe(ggobj = penguin_linear_int,
 :::
 :::
 
-::: {.notes}
+::: notes
 Kristen presents
 :::
 
@@ -165,11 +165,11 @@ ggplot(trend, aes(date)) +
 :::
 :::
 
-::: {.notes}
+::: notes
 Kristen presents
 :::
 
-## {background-image="img/penguins.png"}
+##  {background-image="img/penguins.png"}
 
 ### How the penguins came to be {.r-fit-text}
 
@@ -191,11 +191,11 @@ Kristen presents
 
 [^1]: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. <https://doi.org/10.1371/journal.pone.0090081>
 
-::: {.notes}
+::: notes
 Kristen presents
 :::
 
-## {background-image="img/avian-island.jpeg"}
+##  {background-image="img/avian-island.jpeg"}
 
 ### Little did the penguin research team know... {.r-fit-text}
 
@@ -223,18 +223,17 @@ Kristen presents
 :::
 :::
 
-::: {.notes}
+::: notes
 Allison presents
 :::
 
 ## If something is a problem, offer a solution
 
-1. Keep using `iris` and use it as an opportunity to learn/teach about its problematic aspects.
+1.  Keep using `iris` and use it as an opportunity to learn/teach about its problematic aspects.
 
-2. Find a better dataset to replace `iris`. 
+2.  Find a better dataset to replace `iris`.
 
-
-## {background-image="img/penguin.jpeg"}
+##  {background-image="img/penguin.jpeg"}
 
 ### The eternal search for (better) useful datasets for teaching {.r-fit-text}
 
@@ -242,12 +241,11 @@ Allison presents
 
 ::: columns
 ::: {.column width="60%"}
-
 -   Allison stumbles upon [Gorman et al.](https://dx.plos.org/10.1371/journal.pone.0090081) and shares it with Alison
 
 -   Alison writes a [blog post](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/) with penguins after Allison shares it with her
 
-    [![Screenshot from Alison's first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+    [![Screenshot from Alison\'s first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
 :::
 
 ::: {.column width="40%"}
@@ -255,7 +253,7 @@ Allison presents
 :::
 :::
 
-::: {.notes}
+::: notes
 Allison presents
 :::
 
@@ -313,12 +311,10 @@ girafe(code = print(penguin_linear_int + iris_linear_int),
          opts_hover(css = "opacity:1; filter: brightness(90%);")
        ))
 ```
-
-
 :::
 :::
 
-::: {.notes}
+::: notes
 Allison presents
 :::
 
@@ -348,11 +344,11 @@ Allison presents
 :::
 :::
 
-::: {.notes}
+::: notes
 Allison presents
 :::
 
-## {background-image="img/iceberg.jpeg"}
+##  {background-image="img/iceberg.jpeg"}
 
 ### The making of... {.r-fit-text}
 
@@ -365,7 +361,6 @@ path_to_file("penguins_raw.csv")
 head(read.csv(path_to_file("penguins.csv")))
 ```
 
-
 ## To tibble or...
 
 ```{r echo=FALSE}
@@ -374,27 +369,26 @@ palmerpenguins::penguins
 
 ## Not to tibble, that is the question
 
-> "I think this gives the best of both worlds — if you're running in a low dependency environment, you'll get a data frame." 
+> "I think this gives the best of both worlds --- if you're running in a low dependency environment, you'll get a data frame."
 >
-> — Hadley Wickham[^2]
+> --- Hadley Wickham[^2]
 
+[^2]: Thanks to Hadley [for this PR!](https://github.com/allisonhorst/palmerpenguins/pull/25)
 
 ```{r echo=FALSE}
 palmerpenguins::penguins %>% 
   as.data.frame()
 ```
 
-::: {.notes}
+::: notes
 Alison HILL presents
 :::
 
-[^2]: Thanks to Hadley [for this PR!](https://github.com/allisonhorst/palmerpenguins/pull/25)
-
-## {background-iframe="https://allisonhorst.github.io/palmerpenguins/"}
+##  {background-iframe="https://allisonhorst.github.io/palmerpenguins/"}
 
 ## Penguins in the wild {background-image="img/penguins-wilder.png" background-size="contain"}
 
-::: {.notes}
+::: notes
 Alison HILL presents
 :::
 
@@ -406,11 +400,13 @@ Alison HILL presents
 
 -   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
+    [![Allison Horst's illustration of the 3 penguin species](img/allison-penguins.png)](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
+
 ## Allison: Why has it been so popular?
 
 ::: columns
 ::: column
-The data itself---good distributions, linearity
+The data itself---distributions, linearity
 
 ```{r}
 # Simpson's Paradox example (body mass, omitting species):
@@ -484,11 +480,11 @@ girafe(code = print(bmass_nospecies_int + bmass_wspecies_int),
        ))
 
 ```
-
 :::
 
 ::: column
 Simpson's paradox examples in the wild!
+
 ```{r}
 # Simpson's Paradox example (bill dimensions, omitting species):
 simpson_nospecies_base <- penguins %>%
@@ -561,8 +557,6 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
        ))
 ```
 :::
-
-
 :::
 
 ## Allison: Why has it been so popular?
@@ -570,9 +564,7 @@ girafe(code = print(simpson_nospecies_int + simpson_wspecies_int),
 Good bones for multivariate analyses
 
 ::: columns
-
 ::: column
-
 Principle Components Analysis
 
 ```{r}
@@ -763,11 +755,9 @@ girafe(code = print(penguins_biplot_int | iris_biplot_int),
        ))
 
 ```
-
 :::
 
 ::: column
-
 K-means
 
 ```{r}
@@ -902,9 +892,7 @@ girafe(code = print(pb_kmeans_int + ip_kmeans_int),
        ))
 ```
 :::
-
 :::
-
 
 ## Kristen: Why has it been so popular?
 
@@ -924,7 +912,7 @@ girafe(code = print(pb_kmeans_int + ip_kmeans_int),
 :::
 :::
 
-::: {.notes}
+::: notes
 Kristen presents
 :::
 
@@ -938,8 +926,7 @@ Kristen presents
 :::
 
 ::: column
-![Map of Antarctica by Kristen Gorman](img/antarctic-modis.jpg){fig-alt="Map of Antarctica by Kristen Gorman" fig-align="center"}
-<!--[![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)-->
+![Map of Antarctica by Kristen Gorman](img/antarctic-modis.jpg){fig-alt="Map of Antarctica by Kristen Gorman" fig-align="center"} <!--[![Map of Antarctica by R. M. Chapin](img/map.jpg){fig-alt="Map of Antarctica by R. M. Chapin" fig-align="center"}](https://www.flickr.com/photos/crossettlibrary/6941620363)-->
 :::
 :::
 
@@ -949,14 +936,14 @@ What questions do you have?
 
 We wish to thank:
 
-- Marty Downs at LTER
+-   Marty Downs at LTER
 
-- Hadley Wickham (RStudio)
+-   Hadley Wickham (RStudio)
 
-- Laura Navarro for [this plot](https://lauranavarroviz.wordpress.com/2020/08/01/palmer-penguins/)
+-   Laura Navarro for [this plot](https://lauranavarroviz.wordpress.com/2020/08/01/palmer-penguins/)
 
-- Cedric Scherer for [this plot](https://www.behance.net/gallery/101517403/Bill-Dimensions-of-Penguins)
+-   Cédric Scherer for [this plot](https://www.behance.net/gallery/101517403/Bill-Dimensions-of-Penguins)
 
-- Silvia Canelon for her [great tutorial](https://www.silviacanelon.com/talk/2020-tour-of-the-tidyverse/)
+-   Silvia Canelón for her [great tutorial](https://www.silviacanelon.com/talk/2020-tour-of-the-tidyverse/)
 
-- The #rstats community for blogging, tweeting, visualizing, analyzing, teaching, and sharing about `palmerpenguins`
+-   The #rstats community for blogging, tweeting, visualizing, analyzing, teaching, and sharing about `palmerpenguins`
