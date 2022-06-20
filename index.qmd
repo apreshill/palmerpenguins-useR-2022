@@ -225,7 +225,7 @@ Allison presents
 
 ## If something is a problem, offer a solution
 
-1. Keep using `iris` and use it as an opportunity to learn/teach about racism & racist history in statistics.
+1. Keep using `iris` and use it as an opportunity to learn/teach about it’s problematic aspects.
 
 2. Find a better dataset to replace `iris`. 
 
