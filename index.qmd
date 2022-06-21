@@ -7,6 +7,7 @@ author:
 format: 
   revealjs:
     multiplex: true
+    footer: "[apreshill.github.io/palmerpenguins-useR-2022/](https://apreshill.github.io/palmerpenguins-useR-2022/)"
     theme: ["pp.scss"]
     slide-number: c/t
     incremental: true
@@ -247,7 +248,7 @@ Allison presents
 
 -   Alison writes a [blog post](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/) with penguins after Allison shares it with her
 
-    [![Screenshot from Alison\'s first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
+    [![Screenshot from Alison's first blog post using penguins from Allison](img/blog-post.png)](https://www.apreshill.com/blog/2020-02-take-a-sad-script-make-it-better-tidymodels-edition/)
 :::
 
 ::: {.column width="40%"}
@@ -403,7 +404,7 @@ Alison HILL presents
 
 -   [Allison's art](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
-    [![Allison Horst\'s illustration of the 3 penguin species](img/allison-penguins.png){width="800"}](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
+    [![Allison Horst's illustration of the 3 penguin species](img/allison-penguins.png){width="800"}](https://allisonhorst.github.io/palmerpenguins/articles/art.html)
 
 ## Allison: Why has it been so popular?
 
@@ -489,7 +490,7 @@ girafe(code = print(bmass_nospecies_int + bmass_wspecies_int),
 ::: column
 Simpson's paradox examples in the wild!
 
-```{r} 
+```{r}
 #| fig.alt: "Scatterplot of bill length versus bill depth for the three penguin species, showing a positive linear relationship within species. If species is omitted as a variable, the relationship switches to a negative trend, another example of Simpson’s paradox in the data"
 # Simpson's Paradox example (bill dimensions, omitting species):
 simpson_nospecies_base <- penguins %>%
